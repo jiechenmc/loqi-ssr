@@ -1,2 +1,11 @@
-# loqi-ssr
-loqi-test repo for SSR
+# fresh project
+
+### Usage
+
+Start the project:
+
+```
+deno task start
+```
+
+This will watch the project directory and restart as necessary.
