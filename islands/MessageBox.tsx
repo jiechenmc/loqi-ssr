@@ -1,8 +1,15 @@
 import Message from "../components/Message.tsx";
 import { useEffect, useState } from "preact/hooks";
+import { JSX } from "preact/jsx-runtime";
 import { ref, onValue } from "https://cdn.skypack.dev/firebase/database";
 import { initializeApp } from "https://cdn.skypack.dev/firebase/app";
 import { getDatabase } from "https://cdn.skypack.dev/firebase/database";
+
+export interface Msg {
+  author: string;
+  content: string;
+  createdAt: number;
+}
 
 const firebaseConfig = {
   apiKey: "AIzaSyA2ffbETwL8hupSveo6d55YTOun0kYzCC4",
@@ -19,7 +26,7 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 export default function MessageBox() {
-  const [msgs, setMsgs] = useState();
+  const [msgs, setMsgs] = useState<JSX.Element[]>();
 
   const messagesRef = ref(
     database,
@@ -31,15 +38,20 @@ export default function MessageBox() {
       const data = snapshot.val();
       if (data != null) {
         const vals = Object.values(data);
-        const dt = vals.map((e) => <Message text={e.content} />);
+        const dt = vals.map((e) => {
+          const msg = e as Msg;
+          return (
+            <Message
+              content={msg.content}
+              author={msg.author}
+              createdAt={msg.createdAt}
+            />
+          );
+        });
         setMsgs(dt);
       }
     });
   }, []);
 
-  return (
-    <div class="flex gap-2 w-full">
-      <p class="flex-grow-1 font-bold text-xl">{msgs}</p>
-    </div>
-  );
+  return <div class="flex-col gap-2 w-full">{msgs}</div>;
 }
