@@ -4,6 +4,8 @@ import { JSX } from "preact/jsx-runtime";
 import { ref, onValue } from "https://cdn.skypack.dev/firebase/database";
 import { initializeApp } from "https://cdn.skypack.dev/firebase/app";
 import { getDatabase } from "https://cdn.skypack.dev/firebase/database";
+import { IS_BROWSER } from "$fresh/runtime.ts";
+import Loading from "../components/Loading.tsx";
 
 export interface Msg {
   author: string;
@@ -53,5 +55,6 @@ export default function MessageBox() {
     });
   }, []);
 
-  return <div class="flex-col gap-2 w-full">{msgs}</div>;
+  if (IS_BROWSER) return <div class="flex-col gap-2 w-full">{msgs}</div>;
+  else return <Loading />;
 }
