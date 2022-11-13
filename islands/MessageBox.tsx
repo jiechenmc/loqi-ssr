@@ -40,21 +40,16 @@ export default function MessageBox() {
       const data = snapshot.val();
       if (data != null) {
         const vals = Object.values(data);
-        const dt = vals
-          .sort((e) => {
-            const m = e as Msg;
-            return m.createdAt;
-          })
-          .map((e) => {
-            const msg = e as Msg;
-            return (
-              <Message
-                content={msg.content}
-                author={msg.author}
-                createdAt={msg.createdAt}
-              />
-            );
-          });
+        const dt = vals.map((e) => {
+          const msg = e as Msg;
+          return (
+            <Message
+              content={msg.content}
+              author={msg.author}
+              createdAt={msg.createdAt}
+            />
+          );
+        });
         setMsgs(dt.reverse());
       }
     });
