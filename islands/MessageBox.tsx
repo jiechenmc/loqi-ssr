@@ -40,21 +40,31 @@ export default function MessageBox() {
       const data = snapshot.val();
       if (data != null) {
         const vals = Object.values(data);
-        const dt = vals.map((e) => {
-          const msg = e as Msg;
-          return (
-            <Message
-              content={msg.content}
-              author={msg.author}
-              createdAt={msg.createdAt}
-            />
-          );
-        });
+        const dt = vals
+          .sort((e) => {
+            const m = e as Msg;
+            return m.createdAt;
+          })
+          .map((e) => {
+            const msg = e as Msg;
+            return (
+              <Message
+                content={msg.content}
+                author={msg.author}
+                createdAt={msg.createdAt}
+              />
+            );
+          });
         setMsgs(dt.reverse());
       }
     });
   }, []);
 
   if (IS_BROWSER) return <div class="flex-col gap-2 w-full">{msgs}</div>;
-  else return <Loading />;
+  else
+    return (
+      <div class="w-full">
+        <Loading />
+      </div>
+    );
 }
