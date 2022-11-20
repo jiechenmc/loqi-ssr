@@ -6,6 +6,7 @@ import { initializeApp } from "https://cdn.skypack.dev/firebase/app";
 import { getDatabase } from "https://cdn.skypack.dev/firebase/database";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import Loading from "../components/Loading.tsx";
+import MessageInput from "./MessageInput.tsx";
 
 export interface Msg {
   author: string;
@@ -25,7 +26,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+export const database = getDatabase(app);
 
 export default function MessageBox() {
   const [msgs, setMsgs] = useState<JSX.Element[]>();
@@ -55,7 +56,13 @@ export default function MessageBox() {
     });
   }, []);
 
-  if (IS_BROWSER) return <div class="flex-col gap-2 w-full">{msgs}</div>;
+  if (IS_BROWSER)
+    return (
+      <div class="flex-col gap-2  overflow-scroll">
+        {msgs}
+        <MessageInput />
+      </div>
+    );
   else
     return (
       <div class="w-full">
