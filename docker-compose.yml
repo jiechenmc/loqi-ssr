@@ -4,7 +4,7 @@ services:
     container_name: deno
     build: .
     restart: always
-  proxy:
+  nginx:
     container_name: nginx
     image: jonasal/nginx-certbot
     environment:
@@ -12,8 +12,14 @@ services:
     ports:
       - 80:80
       - 443:443
+    env_file:
+      - .env
     volumes:
-      - ./conf.d:/etc/nginx/conf.d
+      - nginx_secrets:/etc/letsencrypt
+      - ./user_conf.d:/etc/nginx/user_conf.d
+    depends_on:
+      - myportfolio
+      - react
   loqi-fs:
     container_name: loqi-fs
     build: ./loqi-fs
