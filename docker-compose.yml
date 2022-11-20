@@ -6,7 +6,7 @@ services:
     restart: always
   proxy:
     container_name: nginx
-    image: nginx
+    image: jonasal/nginx-certbot
     ports:
       - 80:80
     volumes:
