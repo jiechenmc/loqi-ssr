@@ -11,3 +11,7 @@ services:
       - 80:80
     volumes:
       - ./conf.d:/etc/nginx/conf.d
+  loqi-fs:
+    container_name: loqi-fs
+    build: ./loqi-fs
+    restart: always
