@@ -1,0 +1,15 @@
+version: "3"
+services:
+  front-end:
+    container_name: deno
+    build: .
+    ports:
+      - 8000:8000
+    restart: always
+  proxy:
+    container_name: nginx
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d

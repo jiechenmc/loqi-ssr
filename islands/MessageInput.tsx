@@ -1,13 +1,23 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { database } from "./MessageBox.tsx";
-import { ref, set } from "https://cdn.skypack.dev/firebase/database";
+import {
+  ref,
+  set,
+} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js";
 
 const MessageInput = () => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+
   const [message, setMessage] = useState("");
+  const [file, setFile] = useState("");
+
   const handleSend = () => {
     if (inputRef.current) {
       setMessage(inputRef.current.value);
+    }
+    if (fileRef.current) {
+      setFile(fileRef.current.value);
     }
   };
 
@@ -29,12 +39,19 @@ const MessageInput = () => {
     }
   }, [message]);
 
+  useEffect(() => {
+    if (file) {
+      console.log("UPLOADING..");
+    }
+  }, [file]);
+
   return (
-    <div class="flex justify-center gap-2">
-      <div class="mb-3">
-        <input
-          type="text"
-          class="
+    <form encType="multipart/form-data">
+      <div class="flex justify-center gap-2">
+        <div class="mb-3">
+          <input
+            type="text"
+            class="
         block
         w-full
         px-3
@@ -50,14 +67,16 @@ const MessageInput = () => {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
       "
-          ref={inputRef}
-          placeholder="message..."
-        />
+            ref={inputRef}
+            placeholder="message..."
+          />
+        </div>
+        <input ref={fileRef} type="file"></input>
+        <button type="button" class="hover:bg-gray-400" onClick={handleSend}>
+          Send
+        </button>
       </div>
-      <button type="button" class="hover:bg-gray-400" onClick={handleSend}>
-        Send
-      </button>
-    </div>
+    </form>
   );
 };
 

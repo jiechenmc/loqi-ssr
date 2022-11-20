@@ -1,9 +1,12 @@
 import Message from "../components/Message.tsx";
 import { useEffect, useState } from "preact/hooks";
 import { JSX } from "preact/jsx-runtime";
-import { ref, onValue } from "https://cdn.skypack.dev/firebase/database";
-import { initializeApp } from "https://cdn.skypack.dev/firebase/app";
-import { getDatabase } from "https://cdn.skypack.dev/firebase/database";
+import {
+  ref,
+  onValue,
+  getDatabase,
+} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import Loading from "../components/Loading.tsx";
 import MessageInput from "./MessageInput.tsx";
